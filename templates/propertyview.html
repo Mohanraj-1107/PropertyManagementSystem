@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Property View</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #00BFFF;
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .edit-button, .delete-property {
+            background-color: #00BFFF;
+            color: white;
+        }
+        header{
+            color:white;
+            background-color:#00BFFF ;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rental Management</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('returnHome') }}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <header class="hero text-white text-center py-5">
+        <h1>Welcome to Rental Management</h1>
+        <h5>Property Listings</h5>
+    </header>
+    <div class="container mt-5">
+        <div class="row">
+            {% for property in properties %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">{{ property.title }}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Location: {{ property.address }}</h5>
+                        <p class="card-text"><strong>Contact Number:</strong> {{ property.contact_number }}</p>
+                        <p class="card-text"><strong>Price:</strong> {{ property.price }}/month</p>
+                        <p class="card-text"><strong>Description:</strong> {{ property.description }}</p>
+                        <button class="btn edit-button" data-toggle="modal" data-target="#editModal" 
+                                data-id="{{ property.id }}" 
+                                data-title="{{ property.title }}" 
+                                data-location="{{ property.address }}" 
+                                data-contact_number="{{ property.contact_number }}" 
+                                data-price="{{ property.price }}" 
+                                data-description="{{ property.description }}">
+                            Edit
+                        </button>
+                        <a href="/delete_property/{{ property.id }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Property</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" action="/update_property" method="post">
+                        <input type="hidden" id="propertyId" name="propertyId">
+                        <div class="form-group">
+                            <label for="editTitle">Title</label>
+                            <input type="text" class="form-control" id="editTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLocation">Location</label>
+                            <input type="text" class="form-control" id="editLocation" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editContactNumber">Contact Number</label>
+                            <input type="text" class="form-control" id="editContactNumber" name="contact_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrice">Price</label>
+                            <input type="text" class="form-control" id="editPrice" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDescription">Description</label>
+                            <textarea class="form-control" id="editDescription" name="description" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Rental Management. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var id = button.data('id');
+            var title = button.data('title');
+            var location = button.data('location');
+            var contact_number = button.data('contact_number');
+            var price = button.data('price');
+            var description = button.data('description');
+
+            var modal = $(this);
+            modal.find('#propertyId').val(id);
+            modal.find('#editTitle').val(title);
+            modal.find('#editLocation').val(location);
+            modal.find('#editContactNumber').val(contact_number);
+            modal.find('#editPrice').val(price);
+            modal.find('#editDescription').val(description);
+        });
+    </script>
+</body>
+</html>

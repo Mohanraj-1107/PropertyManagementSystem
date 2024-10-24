@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Customer Bookings</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card-header {
+            background-color: #00BFFF;
+            color: white;
+            cursor: pointer;
+        }
+        .card-body {
+            background-color: #fff;
+        }
+        .hero {
+             background-color:#00BFFF;
+             color: white;
+        }
+        .card-header button {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1.25rem;
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rental Management</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('returnHome') }}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero text-white text-center py-5">
+        <h1>Welcome to Rental Management</h1>
+        <h5>Customer Bookings by Property</h5>
+    </header>
+    
+    <div class="container mt-5">
+        {% if bookings %}
+            <div class="accordion" id="bookingsAccordion">
+                {% for booking in bookings %}
+                    <div class="card">
+                        <div class="card-header" id="heading{{ loop.index }}">
+                            <h5 class="mb-0">
+                                <button class="text-white" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                    Property: {{ booking.title }} - Address: {{ booking.address }}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#bookingsAccordion">
+                            <div class="card-body">
+                                <p><strong>Tenant Name:</strong> {{ booking.tenant_name }}</p>
+                                <p><strong>Email:</strong> {{ booking.tenant_email }}</p>
+                                <p><strong>Phone:</strong> {{ booking.tenant_phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">No bookings available.</p>
+        {% endif %}
+    </div>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Rental Management. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

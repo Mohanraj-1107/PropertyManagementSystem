@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.hero {
+    background: url('https://images.unsplash.com/photo-1582719470648-8b2d4f0b1ee7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VhcmNofDF8fHJlbnRhbHxlbnwwfHx8fDE2ODAwNzUwNzg&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center;
+    background-size: cover;
+    color: white;
+}
+
+.features {
+    background-color: #f8f9fa;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+}
+/* Popup Modal Styles */
+.modal-content {
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Soft shadow effect */
+}
+
+.modal-header {
+    background-color: #FF1493; /* Header background color */
+    color: white; /* Header text color */
+    border-top-left-radius: 10px; /* Rounded corners */
+    border-top-right-radius: 10px; /* Rounded corners */
+}
+
+.modal-body {
+    background-color: #f9f9f9; /* Body background color */
+    color: #333; /* Body text color */
+}
+
+.modal-footer {
+    background-color: #f9f9f9; /* Footer background color */
+}
+
+.modal-footer .btn {
+    border-radius: 5px; /* Rounded button corners */
+}
+
+.modal-body .form-group label {
+    font-weight: bold; /* Bold label text */
+}
+
+.modal-body .form-control {
+    border-radius: 5px; /* Rounded input fields */
+    box-shadow: none; /* Remove default shadow */
+    border: 1px solid #ccc; /* Custom border color */
+}
+
+.modal-body .form-control:focus {
+    border-color: #FF1493; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(255, 20, 147, 0.5); /* Shadow effect on focus */
+}
+

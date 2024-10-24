@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Rental Management - Property Details</title>
+    <style>
+        body {
+            background-color: #f9f9f9;
+        }
+        #p1 {
+            color: white;
+            background-color: #00BFFF;
+            border-radius: 5px;
+        }
+        .hero {
+            background-color: #00BFFF;
+            color: white;
+        }
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); 
+        }
+        .modal-header {
+            background-color: #00BFFF; 
+            color: white; 
+            border-top-left-radius: 10px; 
+            border-top-right-radius: 10px; 
+        }
+        .modal-body {
+            background-color: #f9f9f9; 
+            color: #333; 
+        }
+        .modal-footer {
+            background-color: #f9f9f9; 
+        }
+        .modal-footer .btn {
+            border-radius: 5px; 
+        }
+        .modal-body .form-group label {
+            font-weight: bold;
+        }
+        .modal-body .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #ccc; 
+        }
+        .modal-body .form-control:focus {
+            border-color: #00BFFF;
+            box-shadow: 0 0 5px #00BFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rental Management</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/returnHome">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <header class="hero text-white text-center py-5">
+        <h1>Property Details</h1>
+        <p>Fill in the details below to list your property</p>
+    </header>
+
+    <div class="container my-5">
+        <form id="propertyForm" action="/submit_property" method="post">
+            <div class="form-group">
+                <label for="propertyTitle">Property Title</label>
+                <input type="text" class="form-control" id="propertyTitle" name="propertyTitle" placeholder="Enter property title" required>
+            </div>
+            <div class="form-group">
+                <label for="propertyDescription">Description</label>
+                <textarea class="form-control" id="propertyDescription" name="propertyDescription" rows="4" placeholder="Enter property description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="propertyAddress">Address</label>
+                <input type="text" class="form-control" id="propertyAddress" name="propertyAddress" placeholder="Enter property address" required>
+            </div>
+            <div class="form-group">
+                <label for="propertyPrice">Price</label>
+                <input type="number" class="form-control" id="propertyPrice" name="propertyPrice" placeholder="Enter rental price" required>
+            </div>
+            <div class="form-group">
+                <label for="propertyType">Property Type</label>
+                <select class="form-control" id="propertyType" name="propertyType" required>
+                    <option value="" disabled selected>Select property type</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                    <option value="Condo">Condo</option>
+                    <option value="Studio">Studio</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contactNumber">Contact Number</label>
+                <input type="tel" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter your contact number" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" style="background-color: #00BFFF; width:20%">Submit Property</button>
+        </form>
+    </div>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Rental Management. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

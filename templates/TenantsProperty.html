@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Property View</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #00BFFF;
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .edit-button {
+            background-color: #00BFFF;
+            color: white;
+        }
+        header {
+            color: white;
+            background-color: #00BFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rental Management</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('returnHome') }}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <header class="hero text-white text-center py-5">
+        <h1>Welcome to Rental Management</h1>
+        <h4>Property Listings</h4>
+    </header>
+
+    <div class="container mt-5">
+        <div class="row">
+            {% for property in properties %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">{{ property.title }}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Location: {{ property.address }}</h5>
+                        <p class="card-text"><strong>Contact Number:</strong> {{ property.contact_number }}</p>
+                        <p class="card-text"><strong>Price:</strong> {{ property.price }}/month</p>
+                        <p class="card-text"><strong>Description:</strong> {{ property.description }}</p>
+                        {% if property.is_booked %}
+                            <button class="btn btn-secondary" disabled>Booked</button>
+                        {% else %}
+                            <button class="btn edit-button" data-toggle="modal" data-target="#bookingModal" data-id="{{ property.id }}">Book Now</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+
+<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Book Property</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingForm" action="{{ url_for('book_property') }}" method="POST">
+                    <input type="hidden" id="propertyId" name="property_id">
+                    <div class="form-group">
+                        <label for="tenantName">Name</label>
+                        <input type="text" class="form-control" id="tenantName" name="tenant_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenantEmail">Email</label>
+                        <input type="email" class="form-control" id="tenantEmail" name="tenant_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenantPhone">Phone</label>
+                        <input type="text" class="form-control" id="tenantPhone" name="tenant_phone" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Rental Management. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $('#bookingModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);  
+            var propertyId = button.data('id');   // Extract the property ID from data-id attribute
+            var modal = $(this);
+            modal.find('#propertyId').val(propertyId);  // Set the hidden input field with the property ID
+        });
+    </script>
+</body>
+</html>
